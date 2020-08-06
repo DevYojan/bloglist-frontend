@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Blog from './components/Blog';
+import Notification from './components/Notification';
 import blogService from './services/blogs';
 import loginService from './services/login';
 
@@ -11,6 +12,7 @@ const App = () => {
 	const [title, setTitle] = useState('');
 	const [author, setAuthor] = useState('');
 	const [url, setUrl] = useState('');
+	const [notification, setNotification] = useState(null);
 
 	useEffect(() => {
 		blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -34,10 +36,21 @@ const App = () => {
 			window.localStorage.setItem('loggedBlogUser', JSON.stringify(user));
 			blogService.setToken(user);
 			setUser(user);
+			setNotification({
+				message: `Welcome Back ${user.name}`,
+				type: 'success',
+			});
+			setTimeout(() => {
+				setNotification(null);
+			}, 5000);
 			setUsername('');
 			setPassword('');
 		} catch (error) {
 			console.log(error);
+			setNotification({ message: 'wrong username or password', type: 'error' });
+			setTimeout(() => {
+				setNotification(null);
+			}, 5000);
 		}
 	};
 
@@ -60,11 +73,19 @@ const App = () => {
 
 		const savedBlog = await blogService.create(newBlog);
 		setBlogs(blogs.concat(savedBlog));
+		setNotification({
+			message: `A new blog ${savedBlog.title} by ${savedBlog.author} added`,
+			type: 'success',
+		});
+		setTimeout(() => {
+			setNotification(null);
+		}, 5000);
 	};
 
 	if (!user) {
 		return (
 			<div>
+				<Notification notification={notification} />
 				<form onSubmit={handleSubmit}>
 					<div>
 						<label htmlFor="username">Username: </label>
@@ -93,6 +114,7 @@ const App = () => {
 	return (
 		<div>
 			<h2>blogs</h2>
+			<Notification notification={notification} />
 			<p>
 				{user.name} logged in <button onClick={handleLogout}>Log out</button>
 			</p>
