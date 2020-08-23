@@ -14,7 +14,7 @@ const BlogForm = ({ createNewBlog }) => {
 			author,
 			url,
 		});
-    
+
 		setTitle('');
 		setAuthor('');
 		setUrl('');
@@ -31,7 +31,7 @@ const BlogForm = ({ createNewBlog }) => {
 	return (
 		<div>
 			<button style={hiddenWhenVisible} onClick={toggleVisibility}>
-				New Blog
+				Create New Blog
 			</button>
 			<div style={visibleWhenVisible}>
 				<h2>Create New</h2>
