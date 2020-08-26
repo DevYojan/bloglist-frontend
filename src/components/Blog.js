@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, increaseLike }) => {
 	const [visible, setVisible] = useState(false);
 
 	const toggle = () => {
@@ -17,6 +17,12 @@ const Blog = ({ blog }) => {
 		border: '1px solid blue',
 	};
 
+	const handleLike = (e) => {
+		e.preventDefault();
+
+		increaseLike(blog.id);
+	};
+
 	return (
 		<div style={blogStyle}>
 			<div>
@@ -26,7 +32,7 @@ const Blog = ({ blog }) => {
 			<div style={visible ? shown : hidden}>
 				<p>{blog.url}</p>
 				<p>
-					{blog.likes} <button>Like</button>
+					{blog.likes} <button onClick={handleLike}>Like</button>
 				</p>
 				<p>{blog.author}</p>
 			</div>

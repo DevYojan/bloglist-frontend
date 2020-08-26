@@ -72,6 +72,28 @@ const App = () => {
 		}, 5000);
 	};
 
+	const increaseLike = async (id) => {
+		const updatedBlog = await blogService.like(id);
+		const newBlogs = [...blogs];
+
+		newBlogs.map((blog) => {
+			if (blog.id === updatedBlog.id) {
+				blog.likes = updatedBlog.likes;
+			}
+		});
+
+		setBlogs(newBlogs);
+
+		setNotification({
+			message: 'Blog updated successfully',
+			type: 'success',
+		});
+
+		setTimeout(() => {
+			setNotification(null);
+		}, 5000);
+	};
+
 	if (!user) {
 		return (
 			<div>
@@ -112,7 +134,7 @@ const App = () => {
 			<BlogForm createNewBlog={createNewBlog} />
 
 			{blogs.map((blog) => (
-				<Blog key={blog.id} blog={blog} />
+				<Blog key={blog.id} blog={blog} increaseLike={increaseLike} />
 			))}
 		</div>
 	);
