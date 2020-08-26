@@ -13,7 +13,12 @@ const App = () => {
 	const [notification, setNotification] = useState(null);
 
 	useEffect(() => {
-		blogService.getAll().then((blogs) => setBlogs(blogs));
+		blogService.getAll().then((blogs) => {
+			blogs.sort((a, b) => {
+				return b.likes - a.likes;
+			});
+			setBlogs(blogs);
+		});
 	}, []);
 
 	useEffect(() => {
@@ -80,6 +85,10 @@ const App = () => {
 			if (blog.id === updatedBlog.id) {
 				blog.likes = updatedBlog.likes;
 			}
+		});
+
+		newBlogs.sort((a, b) => {
+			return b.likes - a.likes;
 		});
 
 		setBlogs(newBlogs);
