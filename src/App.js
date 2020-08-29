@@ -103,6 +103,28 @@ const App = () => {
 		}, 5000);
 	};
 
+	const deleteBlog = async (id) => {
+		const response = await blogService.remove(id);
+		console.log(response);
+
+		if (response.status !== 204) {
+			setNotification({
+				message: 'Error Deleting Blog.',
+				type: 'error',
+			});
+		}
+
+		const blogsAfterDelete = blogs.filter((blog) => blog.id !== id);
+		setBlogs(blogsAfterDelete);
+
+		setNotification({
+			message: `Blog Deleted Successfully.`,
+			type: 'success',
+		});
+
+		setTimeout(() => setNotification(null), 5000);
+	};
+
 	if (!user) {
 		return (
 			<div>
@@ -143,7 +165,13 @@ const App = () => {
 			<BlogForm createNewBlog={createNewBlog} />
 
 			{blogs.map((blog) => (
-				<Blog key={blog.id} blog={blog} increaseLike={increaseLike} />
+				<Blog
+					key={blog.id}
+					blog={blog}
+					increaseLike={increaseLike}
+					currentUser={user.username}
+					deleteBlog={deleteBlog}
+				/>
 			))}
 		</div>
 	);
