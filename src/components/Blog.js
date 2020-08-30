@@ -31,6 +31,7 @@ const Blog = ({ blog, increaseLike, currentUser, deleteBlog }) => {
 		}
 	};
 
+
 	return (
 		<div style={blogStyle}>
 			<div>
@@ -44,7 +45,9 @@ const Blog = ({ blog, increaseLike, currentUser, deleteBlog }) => {
 					<button onClick={(e) => handleLike(e, blog)}>Like</button>
 				</p>
 				<p>{blog.author}</p>
-				{currentUser === blog.user.username && (
+				{(blog.user.id
+					? currentUser === blog.user.id
+					: currentUser === blog.user) && (
 					<button
 						style={{ color: 'red', padding: '2px' }}
 						onClick={(e) => handleDelete(e, blog)}

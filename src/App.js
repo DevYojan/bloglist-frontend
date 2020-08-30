@@ -49,7 +49,6 @@ const App = () => {
 			setUsername('');
 			setPassword('');
 		} catch (error) {
-			console.log(error);
 			setNotification({ message: 'wrong username or password', type: 'error' });
 			setTimeout(() => {
 				setNotification(null);
@@ -105,7 +104,6 @@ const App = () => {
 
 	const deleteBlog = async (id) => {
 		const response = await blogService.remove(id);
-		console.log(response);
 
 		if (response.status !== 204) {
 			setNotification({
@@ -169,7 +167,7 @@ const App = () => {
 					key={blog.id}
 					blog={blog}
 					increaseLike={increaseLike}
-					currentUser={user.username}
+					currentUser={user.id}
 					deleteBlog={deleteBlog}
 				/>
 			))}
