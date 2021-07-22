@@ -14,16 +14,28 @@ const App = () => {
 		blogService.getAll().then((blogs) => setBlogs(blogs));
 	}, []);
 
+	//Checking localStorage for saved logins.
+	useEffect(() => {
+		const user = JSON.parse(window.localStorage.getItem("blogUser"));
+
+		if (user) {
+			setUser(user);
+		}
+	}, []);
+
 	const handleLogin = async (event) => {
 		event.preventDefault();
 
 		try {
 			const response = await loginService.login({ username, password });
 			setUser(response.data);
+			window.localStorage.setItem("blogUser", JSON.stringify(response.data));
+
 			setMessage({ message: `welcome back ${response.data.username}`, type: "success" });
 			setTimeout(() => {
 				setMessage(null);
 			}, 5000);
+
 			setUsername("");
 			setPassword("");
 		} catch {
