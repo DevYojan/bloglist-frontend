@@ -46,6 +46,12 @@ const App = () => {
 		}
 	};
 
+	const handleLogout = (event) => {
+		event.preventDefault();
+		window.localStorage.removeItem("blogUser");
+		setUser(null);
+	};
+
 	const showMessage = () => <p className={message.type}>{message.message}</p>;
 
 	const loginForm = () => (
@@ -64,7 +70,9 @@ const App = () => {
 	const showBlogs = () => (
 		<div>
 			<h2>blogs</h2>
-			<p>{user.username} logged in !</p>
+			<p>
+				{user.username} logged in ! <button onClick={handleLogout}>Logout</button>{" "}
+			</p>
 			{blogs.map((blog) => (
 				<Blog key={blog.id} blog={blog} />
 			))}
