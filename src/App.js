@@ -34,7 +34,6 @@ const App = () => {
 		try {
 			const response = await loginService.login({ username, password });
 			setUser(response.data);
-			console.log(response.data);
 			blogService.setToken(response.data.token);
 			window.localStorage.setItem("blogUser", JSON.stringify(response.data));
 
@@ -57,6 +56,12 @@ const App = () => {
 		event.preventDefault();
 		window.localStorage.removeItem("blogUser");
 		setUser(null);
+
+		setMessage({ message: "Logged out successfully !", type: "success" });
+
+		setTimeout(() => {
+			setMessage(null);
+		}, 5000);
 	};
 
 	const handleCreateBlog = async (e) => {
@@ -70,6 +75,10 @@ const App = () => {
 
 		setBlogs([...blogs, newBlog]);
 		setMessage({ message: `Blog "${newBlog.title}" added successfully !`, type: "success" });
+
+		setTimeout(() => {
+			setMessage(null);
+		}, 5000);
 
 		setTitle("");
 		setAuthor("");
