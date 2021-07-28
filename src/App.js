@@ -17,7 +17,13 @@ const App = () => {
 	const blogFormRef = useRef();
 
 	useEffect(() => {
-		blogService.getAll().then((blogs) => setBlogs(blogs));
+		(async function () {
+			const blogs = await blogService.getAll();
+			blogs.map((blog) => {
+				blog.visible = false;
+			});
+			setBlogs(blogs);
+		})();
 	}, []);
 
 	//Checking localStorage for saved logins.
