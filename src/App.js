@@ -84,6 +84,29 @@ const App = () => {
 		}, 5000);
 	};
 
+	const handleLike = async (blogToLike) => {
+		const increasedLikeBlog = {
+			user: blogToLike.user.id,
+			likes: blogToLike.likes + 1,
+			author: blogToLike.author,
+			title: blogToLike.title,
+			url: blogToLike.url,
+			id: blogToLike.id,
+		};
+
+		const modifiedBlog = await blogService.like(increasedLikeBlog);
+
+		//replace the modified blog
+		const temp = [...blogs];
+
+		temp.map((blog) => {
+			if (blog.id === modifiedBlog.id) {
+				blog.likes = modifiedBlog.likes;
+			}
+		});
+		setBlogs(temp);
+	};
+
 	const showMessage = () => <p className={message.type}>{message.message}</p>;
 
 	const loginForm = () => (
@@ -108,7 +131,7 @@ const App = () => {
 	const showBlogs = () => (
 		<div>
 			{blogs.map((blog) => (
-				<Blog key={blog.id} blog={blog} />
+				<Blog key={blog.id} blog={blog} handleLike={handleLike} />
 			))}
 		</div>
 	);
