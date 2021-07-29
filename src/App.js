@@ -19,6 +19,7 @@ const App = () => {
 	useEffect(() => {
 		(async function () {
 			const blogs = await blogService.getAll();
+			blogs.sort((a, b) => b.likes - a.likes);
 			blogs.map((blog) => {
 				blog.visible = false;
 			});
@@ -104,6 +105,9 @@ const App = () => {
 				blog.likes = modifiedBlog.likes;
 			}
 		});
+
+		temp.sort((a, b) => b.likes - a.likes);
+
 		setBlogs(temp);
 	};
 
