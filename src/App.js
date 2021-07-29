@@ -111,6 +111,25 @@ const App = () => {
 		setBlogs(temp);
 	};
 
+	const deleteBlog = async (id) => {
+		const response = await blogService.remove(id);
+
+		if (response.status !== 204) {
+			setMessage({ message: "OOps an error occured deleting blog !", type: "error" });
+
+			setTimeout(() => {
+				setMessage(null);
+			}, 5000);
+		}
+
+		setBlogs(blogs.filter((blog) => blog.id !== id));
+		setMessage({ message: "Blog Deleted Successfully", type: "success" });
+
+		setTimeout(() => {
+			setMessage(null);
+		}, 5000);
+	};
+
 	const showMessage = () => <p className={message.type}>{message.message}</p>;
 
 	const loginForm = () => (
@@ -135,7 +154,13 @@ const App = () => {
 	const showBlogs = () => (
 		<div>
 			{blogs.map((blog) => (
-				<Blog key={blog.id} blog={blog} handleLike={handleLike} />
+				<Blog
+					key={blog.id}
+					blog={blog}
+					handleLike={handleLike}
+					deleteBlog={deleteBlog}
+					userId={user.id}
+				/>
 			))}
 		</div>
 	);

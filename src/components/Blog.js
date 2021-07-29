@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 
-const Blog = ({ blog, handleLike }) => {
+const Blog = ({ blog, handleLike, deleteBlog, userId }) => {
 	const [visibility, setVisibility] = useState(false);
 
 	const showOrHide = { display: visibility ? "" : "none" };
 
 	const toggleVisibility = () => {
 		setVisibility(!visibility);
+	};
+
+	const handleClick = (blog) => {
+		const result = window.confirm(`Remove blog '${blog.title}' by ${blog.author}?`);
+
+		if (result) {
+			deleteBlog(blog.id);
+		}
 	};
 
 	return (
@@ -21,6 +29,11 @@ const Blog = ({ blog, handleLike }) => {
 					Likes: {blog.likes} <button onClick={() => handleLike(blog)}>like</button>
 				</p>
 				<p>Url: {blog.url}</p>
+				{blog.user.id === userId && (
+					<button onClick={() => handleClick(blog)} className='deleteButton'>
+						Delete
+					</button>
+				)}
 			</div>
 		</div>
 	);
