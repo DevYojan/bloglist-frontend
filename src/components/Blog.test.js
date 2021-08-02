@@ -31,3 +31,25 @@ test('url and likes are shown after click', () => {
 
   expect(component.container.querySelector('.details')).not.toHaveStyle('display: none');
 });
+
+test('2 mock calls if like is pressed twice', () => {
+  const blog = {
+    title: 'This is a test blog',
+    author: 'jest-dom',
+    url: 'yojanregmi.com.np',
+    user: 'adfdf',
+  };
+
+  const handleLike = jest.fn();
+
+  component = render(<Blog blog={blog} handleLike={handleLike} />);
+
+  const button = component.container.querySelector('.showButton');
+  fireEvent.click(button);
+
+  const likeButton = component.container.querySelector('.likeButton');
+  fireEvent.click(likeButton);
+  fireEvent.click(likeButton);
+
+  expect(handleLike.mock.calls).toHaveLength(2);
+});
