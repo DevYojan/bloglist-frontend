@@ -21,7 +21,9 @@ const Blog = ({ blog, handleLike, deleteBlog, userId }) => {
     <div className='blog'>
       <div className='title'>{blog.title}</div>
       <p className='author'>Author: {blog.author}</p>
-      <button onClick={toggleVisibility}>{visibility ? 'hide' : 'view'}</button>
+      <button className='showButton' onClick={toggleVisibility}>
+        {visibility ? 'hide' : 'view'}
+      </button>
 
       <div style={showOrHide} className='details'>
         <p className='likes'>
