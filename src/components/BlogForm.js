@@ -22,20 +22,32 @@ const BlogForm = ({ createBlog }) => {
 
       <p>
         <label htmlFor=''>Title : </label>
-        <input type='text' value={title} onChange={({ target }) => setTitle(target.value)} />
+        <input
+          id='title'
+          type='text'
+          value={title}
+          onChange={({ target }) => setTitle(target.value)}
+        />
       </p>
 
       <p>
         <label htmlFor=''>Author : </label>
-        <input type='text' value={author} onChange={({ target }) => setAuthor(target.value)} />
+        <input
+          id='author'
+          type='text'
+          value={author}
+          onChange={({ target }) => setAuthor(target.value)}
+        />
       </p>
 
       <p>
         <label htmlFor=''>Url : </label>
-        <input type='text' value={url} onChange={({ target }) => setUrl(target.value)} />
+        <input id='url' type='text' value={url} onChange={({ target }) => setUrl(target.value)} />
       </p>
 
-      <button onClick={handleSubmit}>Create</button>
+      <button className='submitButton' onClick={handleSubmit}>
+        Create
+      </button>
     </form>
   );
 };
