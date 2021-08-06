@@ -136,10 +136,20 @@ const App = () => {
     <form action=''>
       <h2>Login</h2>
       <label htmlFor=''>Username: </label>
-      <input type='text' value={username} onChange={({ target }) => setUsername(target.value)} />
+      <input
+        id='username'
+        type='text'
+        value={username}
+        onChange={({ target }) => setUsername(target.value)}
+      />
       <br />
       <label htmlFor=''>Password: </label>
-      <input type='text' value={password} onChange={({ target }) => setPassword(target.value)} />
+      <input
+        id='password'
+        type='text'
+        value={password}
+        onChange={({ target }) => setPassword(target.value)}
+      />
       <br />
       <button onClick={handleLogin}>Login</button>
     </form>
