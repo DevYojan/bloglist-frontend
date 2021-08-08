@@ -6,6 +6,13 @@ describe('blog app', () => {
       password: 'regmi',
       name: 'Yojan Regmi',
     });
+
+    cy.request('POST', 'http://localhost:3003/api/users', {
+      username: 'bhatij',
+      password: 'bhatij',
+      name: 'Regmi Yojan',
+    });
+
     cy.visit('http://localhost:3000');
   });
 
@@ -48,13 +55,22 @@ describe('blog app', () => {
       cy.get('.submitButton').click();
       cy.contains('New blog by cypress');
     });
+  });
 
-    it.only('user can like a blog', () => {
+  describe('when logged in and when there is a blog', () => {
+    beforeEach(() => {
+      cy.get('#username').type('yojan');
+      cy.get('#password').type('regmi');
+      cy.get('button').click();
+
       cy.contains('New Blog').click();
       cy.get('#title').type('New blog by cypress');
       cy.get('#author').type('cypress');
       cy.get('#url').type('cypress.com');
       cy.get('.submitButton').click();
+    });
+
+    it('user can like a blog', () => {
       cy.contains('view').click();
       let likes;
       cy.get('.likes')
@@ -63,13 +79,29 @@ describe('blog app', () => {
           likes = $likes.text();
         });
       cy.get('.likeButton').click();
+      cy.wait(500);
       cy.get('.likes')
         .find('#likes')
         .then(($afterLikes) => {
-          setTimeout(() => {
-            cy.expect(Number($afterLikes.text())).to.equal(Number(likes + 1));
-          }, 1000);
+          cy.expect(Number($afterLikes.text())).to.equal(Number(likes + 1));
         });
+    });
+
+    it('author can delete his blog', () => {
+      cy.contains('view').click();
+      cy.get('.deleteButton').click();
+      cy.contains('New blog by cypress').should('not.exist');
+    });
+
+    it.only('cannot delete others blog', () => {
+      cy.wait(1000);
+      cy.contains('Logout').click();
+
+      cy.get('#username').type('bhatij');
+      cy.get('#password').type('bhatij');
+      cy.get('button').click();
+      cy.contains('view').click();
+      cy.get('.deleteButton').should('not.exist');
     });
   });
 });

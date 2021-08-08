@@ -17,6 +17,8 @@ const Blog = ({ blog, handleLike, deleteBlog, userId }) => {
     }
   };
 
+  console.log('blog ', blog.user.id, ' userId ', userId);
+
   return (
     <div className='blog'>
       <div className='title'>{blog.title}</div>
