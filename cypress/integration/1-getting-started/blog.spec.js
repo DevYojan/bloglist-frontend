@@ -29,6 +29,24 @@ describe('blog app', () => {
       cy.get('#password').type('bhatij');
       cy.get('button').click();
       cy.contains('yojan logged in !').should('not.exist');
+      cy.get('.error').should('have.css', 'background-color', 'rgb(255, 0, 0)');
+    });
+  });
+
+  describe('when logged in', () => {
+    beforeEach(() => {
+      cy.get('#username').type('yojan');
+      cy.get('#password').type('regmi');
+      cy.get('button').click();
+    });
+
+    it('user can create a new blog', () => {
+      cy.contains('New Blog').click();
+      cy.get('#title').type('New blog by cypress');
+      cy.get('#author').type('cypress');
+      cy.get('#url').type('cypress.com');
+      cy.get('.submitButton').click();
+      cy.contains('New blog by cypress');
     });
   });
 });
