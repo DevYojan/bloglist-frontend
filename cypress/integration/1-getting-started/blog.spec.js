@@ -48,5 +48,28 @@ describe('blog app', () => {
       cy.get('.submitButton').click();
       cy.contains('New blog by cypress');
     });
+
+    it.only('user can like a blog', () => {
+      cy.contains('New Blog').click();
+      cy.get('#title').type('New blog by cypress');
+      cy.get('#author').type('cypress');
+      cy.get('#url').type('cypress.com');
+      cy.get('.submitButton').click();
+      cy.contains('view').click();
+      let likes;
+      cy.get('.likes')
+        .find('#likes')
+        .then(($likes) => {
+          likes = $likes.text();
+        });
+      cy.get('.likeButton').click();
+      cy.get('.likes')
+        .find('#likes')
+        .then(($afterLikes) => {
+          setTimeout(() => {
+            cy.expect(Number($afterLikes.text())).to.equal(Number(likes + 1));
+          }, 1000);
+        });
+    });
   });
 });

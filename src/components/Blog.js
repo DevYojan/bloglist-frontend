@@ -27,7 +27,7 @@ const Blog = ({ blog, handleLike, deleteBlog, userId }) => {
 
       <div style={showOrHide} className='details'>
         <p className='likes'>
-          Likes: {blog.likes}{' '}
+          Likes: <span id='likes'>{blog.likes}</span>
           <button className='likeButton' onClick={() => handleLike(blog)}>
             like
           </button>
