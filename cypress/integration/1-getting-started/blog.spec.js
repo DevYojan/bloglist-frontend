@@ -93,7 +93,7 @@ describe('blog app', () => {
       cy.contains('New blog by cypress').should('not.exist');
     });
 
-    it.only('cannot delete others blog', () => {
+    it('cannot delete others blog', () => {
       cy.wait(1000);
       cy.contains('Logout').click();
 
@@ -102,6 +102,79 @@ describe('blog app', () => {
       cy.get('button').click();
       cy.contains('view').click();
       cy.get('.deleteButton').should('not.exist');
+    });
+
+    it.only('blogs are sorted according to likes', () => {
+      cy.wait(500);
+      cy.addBlog({ author: 'regmi', title: 'First try', url: 'regmi.com' });
+      cy.addBlog({ author: 'yojan', title: 'second try', url: 'regmi.com' });
+      cy.addBlog({ author: 'bhatij', title: 'third try', url: 'regmi.com' });
+      cy.addBlog({ author: 'yalien', title: 'fourth try', url: 'regmi.com' });
+      cy.addBlog({ author: 'yyyy', title: 'fifth try', url: 'regmi.com' });
+
+      cy.get('.blog')
+        .eq(4)
+        .contains('view')
+        .click()
+        .parent()
+        .contains('like')
+        .click()
+        .wait(300)
+        .click()
+        .wait(300)
+        .click();
+
+      cy.wait(500);
+
+      cy.get('.blog')
+        .eq(5)
+        .contains('view')
+        .click()
+        .parent()
+        .contains('like')
+        .click()
+        .wait(300)
+        .click()
+        .wait(300)
+        .click()
+        .wait(300)
+        .click();
+
+      cy.wait(500);
+
+      cy.get('.blog')
+        .eq(3)
+        .contains('view')
+        .click()
+        .parent()
+        .contains('like')
+        .click()
+        .wait(300)
+        .click()
+        .wait(300)
+        .click()
+        .wait(300)
+        .click()
+        .wait(300)
+        .click();
+
+      let like1;
+      cy.get('.likes')
+        .eq(0)
+        .find('#likes')
+        .then(($like1) => {
+          like1 = $like1.text();
+          console.log(like1);
+        });
+
+      let like2;
+      cy.get('.likes')
+        .eq(1)
+        .find('#likes')
+        .then(($like2) => {
+          like2 = $like2.text();
+          expect(Number(like1)).to.equal(Number(like1) + Number(like1 - like2));
+        });
     });
   });
 });
